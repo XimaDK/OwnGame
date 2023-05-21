@@ -1,6 +1,8 @@
 package com.example.owngame
 
 import android.util.Log
+import android.view.View
+
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
@@ -25,9 +27,10 @@ class Host {
 //создать класс крторый менеджерит клиентов
 //создать арэйлист клиентов
         }
+
     }
-    fun start(){
-        var users = UserManager(client.inetAddress)
+    fun getUsers(): ArrayList<InetAddress> {
+        return arrayClients
     }
 }
 
