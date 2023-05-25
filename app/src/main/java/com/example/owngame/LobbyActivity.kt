@@ -2,20 +2,19 @@ package com.example.owngame
 
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.owngame.databinding.ActivityLobbyBinding
-import android.text.format.Formatter;
+import android.text.format.Formatter
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
-import java.net.InetAddress
+
+import androidx.appcompat.app.AppCompatActivity
+import com.example.owngame.databinding.ActivityLobbyBinding
 
 
 class LobbyActivity : AppCompatActivity() {
 
-    private lateinit var lobbyLayout : ActivityLobbyBinding
-    private lateinit var con: Host
+    private lateinit var lobbyLayout: ActivityLobbyBinding
+    private var con = Host()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +26,7 @@ class LobbyActivity : AppCompatActivity() {
 
         con = Host()
 
-
-        Thread {con.runServer()}.start()
+        Thread { con.runServer() }.start()
 
         val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         val ipAddress: String = Formatter.formatIpAddress(wifiManager.connectionInfo.ipAddress)
@@ -39,12 +37,8 @@ class LobbyActivity : AppCompatActivity() {
 
     fun startGame(view: View) {
         val button = findViewById<Button>(R.id.buttonStart)
-        Thread {button.setOnClickListener{
-            val users = UserManager()
-            users.listUsers(con.getUsers())
-            Log.d("CON", "OK")}
-
-        }
-
+        button.setOnClickListener {
+            con.startGame()
+            Log.d("CON", "OK") }
     }
 }

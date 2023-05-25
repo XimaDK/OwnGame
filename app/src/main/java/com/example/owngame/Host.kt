@@ -1,36 +1,50 @@
 package com.example.owngame
 
-import android.util.Log
-import android.view.View
 
+import android.os.Handler
+import android.os.HandlerThread
+import android.util.Log
+import java.io.*
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
+import kotlin.collections.ArrayList
+
 
 class Host {
-    private var arrayClients = ArrayList<InetAddress>()
-    lateinit var client: Socket
+
+    private val clientThread = HandlerThread("clientThread").apply { start() }
+
+    private var arrayClients = ArrayList<NetworkController>()
+
     fun runServer() {
         var running = true
         val server = ServerSocket(9999)
         while (running) {
             try {
                 Log.d("CON", "server running on port ${server.localPort}")
-                client = server.accept()
+                val client = server.accept()
                 Log.d("CON", "client connected ${client.inetAddress.hostAddress}")
-                arrayClients.add(client.inetAddress)
-
+                arrayClients.add(NetworkController(client, Handler(clientThread.looper)))
             }
             catch (e: Exception) {
                 e.stackTrace
             }
-//создать класс крторый менеджерит клиентов
-//создать арэйлист клиентов
+        }
+    }
+    fun startGame() {
+        for (controller in arrayClients) {
+            Log.d("CON", "->  $controller")
+            controller.onMessage = { message -> catchMessage(controller, message) }
+
         }
 
     }
-    fun getUsers(): ArrayList<InetAddress> {
-        return arrayClients
+
+    fun catchMessage(controller: NetworkController, message: String) {
+
     }
+
+
 }
 
