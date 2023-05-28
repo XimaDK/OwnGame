@@ -20,7 +20,8 @@ class PlayerLobby : AppCompatActivity() {
         val nickname = intent.getStringExtra("name")
         playerLobby.username.text = nickname.toString()
         conn = Client()
-        Thread { conn.connectClient(9999)}.start()
+        Thread { conn.connectClient(9999) }.start()
+
 
     }
 

@@ -12,25 +12,12 @@ import kotlin.math.log
 class Client {
 
     private lateinit var client : Socket
-    private lateinit var networkController : NetworkController
-    private lateinit var output : PrintWriter
 
     fun connectClient(PORT : Int) {
         Handler(Looper.getMainLooper())
-        client = Socket("10.114.7.45", PORT)
-            //"172.20.10.3"
+        client = Socket("172.20.10.6", PORT)
+        //"172.20.10.3"
             //172.20.10.2
     }
-
-
-
-//    fun sendToHost(s: String){
-//        output = PrintWriter(client.getOutputStream(), true)
-//        output.println(s)
-//        Log.d("CON", "Клиент отправил ${s}")
-//    }
-
-
-
 
 }

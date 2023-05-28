@@ -14,7 +14,7 @@ import com.example.owngame.databinding.ActivityLobbyBinding
 class LobbyActivity : AppCompatActivity() {
 
     private lateinit var lobbyLayout: ActivityLobbyBinding
-    private var con = Host()
+    private lateinit var con: Host
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,6 @@ class LobbyActivity : AppCompatActivity() {
         lobbyLayout.username.text = nickname.toString()
 
         con = Host()
-
         Thread { con.runServer() }.start()
 
         val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
@@ -41,4 +40,5 @@ class LobbyActivity : AppCompatActivity() {
             con.startGame()
             Log.d("CON", "OK") }
     }
+
 }
