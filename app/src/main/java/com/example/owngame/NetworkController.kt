@@ -33,12 +33,12 @@ class NetworkController(
             Log.d("CON", "checkMessageFromHost :  $message")
             return message
         }
-        Log.d("CON", "checkMessageFromHost: nul")
         return null
     }
 
     fun sendToHost(s: String?){
         output.println(s)
-        Log.d("CON", "Message: ${s}")
+        Log.d("CON", "Message в классе NetworkController в классе sendToHost: $s")
+
     }
 }

@@ -37,8 +37,7 @@ class LobbyActivity : AppCompatActivity() {
     fun startGame(view: View) {
         val button = findViewById<Button>(R.id.buttonStart)
         button.setOnClickListener {
-            con.startGame()
-            Log.d("CON", "OK") }
+            con.startGame()}
     }
 
 }
