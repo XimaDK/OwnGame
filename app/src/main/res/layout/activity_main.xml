@@ -23,14 +23,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:onClick="onPlayerLobby"
+
         android:text="Я участник"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/playerRole" />
 
     <Button
-        android:onClick="onHostLayout"
+
         android:id="@+id/host"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,6 +47,15 @@
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"/>
-
+        android:textSize="20sp"/>
+    <EditText
+        android:id="@+id/ipAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username"
+        android:gravity="center"
+        android:hint="Введите адресс хоста"
+        android:textSize="20sp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

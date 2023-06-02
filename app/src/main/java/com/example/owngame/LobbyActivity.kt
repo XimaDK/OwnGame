@@ -3,11 +3,9 @@ package com.example.owngame
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.format.Formatter
-import android.util.Log
-import android.view.View
 import android.widget.Button
-
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.owngame.databinding.ActivityLobbyBinding
 
 
@@ -31,13 +29,16 @@ class LobbyActivity : AppCompatActivity() {
         val ipAddress: String = Formatter.formatIpAddress(wifiManager.connectionInfo.ipAddress)
         lobbyLayout.ipAddress.text = ipAddress
 
+        val buttonNextRound = findViewById<Button>(R.id.nextRound)
+        val buttonStart = findViewById<Button>(R.id.buttonStart)
+        buttonStart.setOnClickListener {
+            con.startGame()
+            buttonStart.isVisible = false
+            buttonNextRound.isVisible = true
+        }
 
+        buttonNextRound.setOnClickListener{
+            con.nextRound()
+        }
     }
-
-    fun startGame(view: View) {
-        val button = findViewById<Button>(R.id.buttonStart)
-        button.setOnClickListener {
-            con.startGame()}
-    }
-
 }

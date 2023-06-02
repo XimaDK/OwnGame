@@ -16,28 +16,23 @@ class PlayerLobby : AppCompatActivity() {
     private lateinit var handler: Handler
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         playerLobby = ActivityPlayerLobbyBinding.inflate(layoutInflater)
         setContentView(playerLobby.root)
         val nickname = intent.getStringExtra("name")
         playerLobby.username.text = nickname.toString()
-        conn = Client(playerLobby.viewInfo)
+        conn = Client(playerLobby.viewInfo, playerLobby.clickToAnswer)
         Thread { conn.connectClient(9999) }.start()
+        conn.setNickname(nickname.toString())
         handler = Handler(Looper.getMainLooper())
         conn.setHandler(handler)
-
-    }
-
-
-    fun clickToAnswer(view: View) {
         val button = findViewById<Button>(R.id.clickToAnswer)
         button.setOnClickListener {
-            val nickname = playerLobby.username.text.toString()
-            conn.sendToHost("ClickToAnswer", nickname)
+            val nickname1 = playerLobby.username.text.toString()
+            conn.sendToHost("ClickToAnswer", nickname1)
 
         }
     }
+
 }

@@ -31,6 +31,15 @@
         android:onClick="startGame"
         android:text="Начать игру"
         app:layout_constraintBottom_toBottomOf="parent" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Следующий раунд"
+        android:id="@+id/nextRound"
+        app:layout_constraintBottom_toTopOf="@id/buttonStart"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,10 @@ class Host {
     private val clientThread = HandlerThread("clientThread").apply { start() }
     private lateinit var networkController: NetworkController
     private var arrayClients = ArrayList<NetworkController>()
+    private var firstPlayer: String? = null
+    private var roundCount: Int = 1
+
+
 
 
     fun runServer() {
@@ -36,25 +40,43 @@ class Host {
         for (controller in arrayClients) {
             controller.onMessage = { message -> catchMessage(controller, message) }
             Thread {
-                controller.sendToHost("StartGame")
+                    controller.sendToHost("StartGame")
+                }.start()
+            }
+        Log.d("CON", "Количество клиентов: ${arrayClients.size}")
+
+    }
+    fun nextRound() {
+        firstPlayer = null
+        roundCount++
+        for (client in arrayClients) {
+            Thread {
+                synchronized(client) {
+                    client.sendToHost("NewRound:$roundCount")
+                }
             }.start()
         }
     }
 
-    fun catchMessage(controller: NetworkController, message: String) {
+
+    private fun catchMessage(controller: NetworkController, message: String) {
         val parts = message.split(":")
         if (parts.size == 2) {
             val senderNickname = parts[0]
             val content = parts[1]
 
-            if (content == "ClickToAnswer") {
+            if (content == "ClickToAnswer" && (firstPlayer == null || roundCount > 1)) {
+                firstPlayer = senderNickname
                 Log.d("CON", "Команда ClickToAnswer от клиента $senderNickname")
-            }
-            if (content == "2") {
-                Log.d("CON", "Команда 2 от клиента $senderNickname")
+                for (clients in arrayClients) {
+                    Thread {
+                            clients.sendToHost("FirstPlayer:$senderNickname")
 
+                    }.start()
+                }
             }
         }
     }
+
 
 }

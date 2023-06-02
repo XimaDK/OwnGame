@@ -39,6 +39,5 @@ class NetworkController(
     fun sendToHost(s: String?){
         output.println(s)
         Log.d("CON", "Message в классе NetworkController в классе sendToHost: $s")
-
     }
 }
