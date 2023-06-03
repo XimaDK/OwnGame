@@ -41,5 +41,31 @@
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="invisible"/>
 
+    <Button
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toTopOf="@id/ipAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Верно!"
+        app:layout_constraintRight_toRightOf="@id/AnswerIsIncorrect"
+        android:id="@+id/AnswerIsCorrect"
+        android:layout_marginRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="invisible"
+
+        />
+    <Button
+        android:visibility="invisible"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toTopOf="@id/ipAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AnswerIsIncorrect"
+        android:text="Неверно!"
+        app:layout_constraintLeft_toLeftOf="@+id/AnswerIsCorrect"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

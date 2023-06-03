@@ -3,12 +3,19 @@ package com.example.owngame
 
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Looper
 import android.util.Log
+import android.widget.Button
+import androidx.core.view.isVisible
 import java.net.ServerSocket
 import kotlin.collections.ArrayList
 
 
-class Host {
+class Host(private val correctButton: Button,
+            private val incorrectButton: Button){
+    init {
+        setAnswerButtons()
+    }
 
     private val clientThread = HandlerThread("clientThread").apply { start() }
     private lateinit var networkController: NetworkController
@@ -16,7 +23,36 @@ class Host {
     private var firstPlayer: String? = null
     private var roundCount: Int = 1
 
+    private fun setAnswerButtons() {
+        correctButton.isVisible = true
+        incorrectButton.isVisible = true
+        correctButton.setOnClickListener {
+            markAnswerAsCorrect()
+        }
 
+        incorrectButton.setOnClickListener {
+            markAnswerAsIncorrect()
+        }
+    }
+    private fun markAnswerAsCorrect() {
+        for (controller in arrayClients){
+            controller.onMessage = { message -> catchMessage(controller, message) }
+            Thread {
+                controller.sendToHost("CorrectAnswer")
+                Log.d("CON", "OTVET OK")
+            }.start()
+        }
+    }
+
+    private fun markAnswerAsIncorrect() {
+        for (controller in arrayClients){
+            controller.onMessage = { message -> catchMessage(controller, message) }
+            Thread {
+                controller.sendToHost("IncorrectAnswer")
+                Log.d("CON", "OTVET NEOK")
+            }.start()
+        }
+    }
 
 
     fun runServer() {
@@ -65,13 +101,12 @@ class Host {
             val senderNickname = parts[0]
             val content = parts[1]
 
-            if (content == "ClickToAnswer" && (firstPlayer == null || roundCount > 1)) {
+            if (content == "ClickToAnswer" && firstPlayer == null) {
                 firstPlayer = senderNickname
                 Log.d("CON", "Команда ClickToAnswer от клиента $senderNickname")
                 for (clients in arrayClients) {
                     Thread {
                             clients.sendToHost("FirstPlayer:$senderNickname")
-
                     }.start()
                 }
             }

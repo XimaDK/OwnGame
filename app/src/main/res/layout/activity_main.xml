@@ -29,6 +29,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/playerRole" />
 
+
     <Button
 
         android:id="@+id/host"
@@ -56,6 +57,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/username"
         android:gravity="center"
-        android:hint="Введите адресс хоста"
+        android:hint="Введите адрес хоста"
         android:textSize="20sp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

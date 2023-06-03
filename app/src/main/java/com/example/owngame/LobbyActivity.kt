@@ -22,7 +22,7 @@ class LobbyActivity : AppCompatActivity() {
         val nickname = intent.getStringExtra("name")
         lobbyLayout.username.text = nickname.toString()
 
-        con = Host()
+        con = Host(findViewById(R.id.AnswerIsCorrect), findViewById(R.id.AnswerIsIncorrect))
         Thread { con.runServer() }.start()
 
         val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
@@ -39,6 +39,7 @@ class LobbyActivity : AppCompatActivity() {
 
         buttonNextRound.setOnClickListener{
             con.nextRound()
+
         }
     }
 }

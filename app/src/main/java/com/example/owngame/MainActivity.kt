@@ -3,7 +3,6 @@ package com.example.owngame
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import com.example.owngame.databinding.ActivityMainBinding
 
@@ -28,11 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         val btnClient = findViewById<Button>(R.id.player)
         btnClient.setOnClickListener {
-            val ipAdress = welcomeLayout.ipAddress
+            val ipAddress = welcomeLayout.ipAddress
             val userName = welcomeLayout.username
             val lobbyLayout = Intent(this, PlayerLobby::class.java)
             lobbyLayout.putExtra("name", userName.text.toString())
-            lobbyLayout.putExtra("ip", ipAdress.text.toString())
+            lobbyLayout.putExtra("ip", ipAddress.text.toString())
             startActivity(lobbyLayout)
         }
     }

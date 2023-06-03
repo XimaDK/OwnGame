@@ -10,7 +10,8 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.Socket
 import android.graphics.Color
-
+import android.provider.ContactsContract.CommonDataKinds.Nickname
+import androidx.core.view.isVisible
 
 
 class Client(private val textView: TextView, private val clickToAnswer: Button) {
@@ -20,10 +21,11 @@ class Client(private val textView: TextView, private val clickToAnswer: Button) 
     private lateinit var output: PrintWriter
     private lateinit var handler: Handler
     private var yourNickname = ""
+    private var globalNickname = ""
 
     fun connectClient(PORT: Int) {
         handler = Handler(Looper.getMainLooper())
-        client = Socket("172.20.10.7", PORT)
+        client = Socket("172.20.10.3", PORT)
         input = BufferedReader(InputStreamReader(client.inputStream))
         output = PrintWriter(client.getOutputStream(), true)
         startListening()
@@ -66,6 +68,7 @@ class Client(private val textView: TextView, private val clickToAnswer: Button) 
 
         if (message.startsWith("FirstPlayer")) {
             val nickname = message.substringAfter("FirstPlayer:")
+            globalNickname = nickname
             val infoMessage = "Игрок $nickname первым нажал кнопку"
             handler.post {
                 textView.text = infoMessage
@@ -74,6 +77,7 @@ class Client(private val textView: TextView, private val clickToAnswer: Button) 
                 } else {
                     clickToAnswer.setBackgroundColor(Color.GREEN)
                 }
+                clickToAnswer.isEnabled = false
             }
         }
 
@@ -82,11 +86,34 @@ class Client(private val textView: TextView, private val clickToAnswer: Button) 
             val infoMessage = "Начало раунда $roundCount"
             handler.post {
                 textView.text = infoMessage
+                clickToAnswer.setBackgroundColor(Color.BLUE)
+                clickToAnswer.isVisible = true
+                clickToAnswer.isEnabled = true
             }
         }
+        if (message == "CorrectAnswer"){
+            handler.post{
+                textView.text = "Игрок ответил верно!"
+            }
+        }
+        if (message == "IncorrectAnswer")
+            handler.post{
+                textView.text = "Игрок ответил неверно!"
+                handler.post{
+                    clickToAnswer.setBackgroundColor(Color.BLUE)
+                    clickToAnswer.isEnabled = true
+                }
+                if (globalNickname == yourNickname){
+                    handler.post{
+                        clickToAnswer.isVisible = false
+                    }
+                }
+            }
+
     }
 
     fun setHandler(handler: Handler) {
         this.handler = handler
     }
 }
+
