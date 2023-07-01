@@ -59,4 +59,6 @@
         android:gravity="center"
         android:hint="Введите адрес хоста"
         android:textSize="20sp"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

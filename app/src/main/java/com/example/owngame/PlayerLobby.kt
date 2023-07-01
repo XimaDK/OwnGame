@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import android.view.View
 import android.widget.Button
 import com.example.owngame.databinding.ActivityPlayerLobbyBinding
 
@@ -21,9 +19,11 @@ class PlayerLobby : AppCompatActivity() {
         playerLobby = ActivityPlayerLobbyBinding.inflate(layoutInflater)
         setContentView(playerLobby.root)
         val nickname = intent.getStringExtra("name")
+        val ip = intent.getStringExtra("ip")
         playerLobby.username.text = nickname.toString()
+
         conn = Client(playerLobby.viewInfo, playerLobby.clickToAnswer)
-        Thread { conn.connectClient(9999) }.start()
+        Thread { conn.connectClient(ip.toString(), 9999) }.start()
         conn.setNickname(nickname.toString())
         handler = Handler(Looper.getMainLooper())
         conn.setHandler(handler)

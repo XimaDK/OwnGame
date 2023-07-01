@@ -10,7 +10,6 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.Socket
 import android.graphics.Color
-import android.provider.ContactsContract.CommonDataKinds.Nickname
 import androidx.core.view.isVisible
 
 
@@ -23,9 +22,9 @@ class Client(private val textView: TextView, private val clickToAnswer: Button) 
     private var yourNickname = ""
     private var globalNickname = ""
 
-    fun connectClient(PORT: Int) {
+    fun connectClient(ip: String, PORT: Int) {
         handler = Handler(Looper.getMainLooper())
-        client = Socket("172.20.10.3", PORT)
+        client = Socket(ip, PORT)
         input = BufferedReader(InputStreamReader(client.inputStream))
         output = PrintWriter(client.getOutputStream(), true)
         startListening()

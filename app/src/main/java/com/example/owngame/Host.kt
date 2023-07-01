@@ -3,7 +3,6 @@ package com.example.owngame
 
 import android.os.Handler
 import android.os.HandlerThread
-import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import androidx.core.view.isVisible
@@ -63,8 +62,13 @@ class Host(private val correctButton: Button,
                 Log.d("CON", "server running on port ${server.localPort}")
                 val client = server.accept()
                 Log.d("CON", "client connected ${client.inetAddress.hostAddress}")
-                networkController = NetworkController(client, Handler(clientThread.looper))
-                arrayClients.add(NetworkController(client, Handler(clientThread.looper)))
+                val networkController = NetworkController(client,
+                    Handler(
+                            HandlerThread("clientThread: ${client.inetAddress}:${client.port}")
+                                .apply { start() }.looper))
+                arrayClients.add(networkController)
+
+
 
             }
             catch (e: Exception) {
